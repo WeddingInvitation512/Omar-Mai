@@ -83,3 +83,83 @@ const calText='حفل زفاف عمر ومي';
 const calDetails='دار المراسم لضباط الشرطة بالجزيرة - قاعة اللوتس، الزمالك، القاهرة';
 const googleCalendar='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(calText)+'&dates=20261205T180000Z/20261205T220000Z&details='+encodeURIComponent('فرحتنا تكتمل بوجودكم')+'&location='+encodeURIComponent(calDetails);
 document.getElementById('calendarLink').href=googleCalendar;
+
+(() => {
+  let autoScroll = false;
+  let frame;
+  let lastTime = 0;
+  let position = 0;
+  let startTimer;
+  let cancelled = false;
+  let started = false;
+
+  const speed = 32;
+
+  function stopScroll() {
+    cancelled = true;
+    autoScroll = false;
+    clearTimeout(startTimer);
+    cancelAnimationFrame(frame);
+  }
+
+  function animateScroll(time) {
+    if (!autoScroll) return;
+
+    if (!lastTime) lastTime = time;
+
+    const delta = Math.min(time - lastTime, 50) / 1000;
+    lastTime = time;
+
+    position += speed * delta;
+    window.scrollTo(0, position);
+
+    const maxScroll =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    if (position >= maxScroll - 2) {
+      autoScroll = false;
+      return;
+    }
+
+    frame = requestAnimationFrame(animateScroll);
+  }
+
+  function startScroll() {
+    if (cancelled) return;
+
+    autoScroll = true;
+    position = window.scrollY;
+    lastTime = 0;
+
+    frame = requestAnimationFrame(animateScroll);
+  }
+
+  const envelope = document.getElementById(
+    'envelopeButton'
+  );
+
+  if (envelope) {
+    envelope.addEventListener('click', () => {
+      if (started) return;
+
+      started = true;
+
+      startTimer = setTimeout(() => {
+        if (cancelled) return;
+        startScroll();
+      }, 9000);
+    });
+  }
+
+  window.addEventListener('touchmove', stopScroll, {
+    passive: true
+  });
+
+  window.addEventListener('wheel', stopScroll, {
+    passive: true
+  });
+
+  document.addEventListener('keydown', stopScroll);
+
+})();
