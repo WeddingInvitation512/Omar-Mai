@@ -64,8 +64,8 @@ if('IntersectionObserver' in window){
   const observer = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}})},{threshold:.12});
   sections.forEach(s=>observer.observe(s));
 }else{sections.forEach(s=>s.classList.add('visible'));}
-// 5 December 2026, 8 PM Cairo time (UTC+2 in December).
-const weddingDate = new Date('2026-12-05T20:00:00+02:00');
+// 5 December 2026, 7 PM Cairo time (UTC+2 in December).
+const weddingDate = new Date('2026-12-05T19:00:00+02:00');
 const arabicDigits = (n)=>String(n).padStart(2,'0').replace(/\d/g,x=>'٠١٢٣٤٥٦٧٨٩'[Number(x)]);
 const fields = {days:document.getElementById('days'),hours:document.getElementById('hours'),minutes:document.getElementById('minutes'),seconds:document.getElementById('seconds')};
 function updateCountdown(){
@@ -81,7 +81,7 @@ updateCountdown();
 window.setInterval(updateCountdown,1000);
 const calText='حفل زفاف عمر ومي';
 const calDetails='دار المراسم لضباط الشرطة بالجزيرة - قاعة اللوتس، الزمالك، القاهرة';
-const googleCalendar='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(calText)+'&dates=20261205T180000Z/20261205T220000Z&details='+encodeURIComponent('فرحتنا تكتمل بوجودكم')+'&location='+encodeURIComponent(calDetails);
+const googleCalendar='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(calText)+'&dates=20261205T170000Z/20261205T210000Z&details='+encodeURIComponent('فرحتنا تكتمل بوجودكم')+'&location='+encodeURIComponent(calDetails);
 document.getElementById('calendarLink').href=googleCalendar;
 
 (() => {
